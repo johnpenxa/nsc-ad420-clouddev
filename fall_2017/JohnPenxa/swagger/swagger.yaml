@@ -79,7 +79,7 @@ paths:
           description: invalid input
         '409':
           description: user already exists
-  '/users/{id}':
+  '/users/{user_id}':
     get:
       tags:
         - users
@@ -89,7 +89,7 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: id
+        - name: user_id
           in: path
           description: id to look up
           required: true
@@ -136,11 +136,7 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: api_key
-          in: header
-          required: false
-          type: string
-        - name: id
+        - name: user_id
           in: path
           description: user ID to delete
           required: true
@@ -153,7 +149,7 @@ paths:
           description: invalid ID supplied
         '404':
           description: user ID not found
-  '/users/{id}/tasks':
+  '/users/{user_id}/tasks':
     get:
       tags:
         - tasks
@@ -163,7 +159,7 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: id
+        - name: user_id
           in: path
           description: user ID
           required: true
@@ -206,7 +202,7 @@ paths:
           description: task created
         '400':
           description: invalid input
-  '/users/{id}/tasks/{id}':
+  '/users/{user_id}/tasks/{id}':
     get:
       tags:
         - tasks
@@ -216,12 +212,17 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: id
+        - name: user_id
           in: path
           description: user ID
           required: true
           type: integer
-        - name: taskName
+        - name: id
+          in: path
+          description: task ID
+          required: true
+          type: integer
+        - name: tasks
           in: query
           description: find a task
           required: false
@@ -268,16 +269,21 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: api_key
-          in: header
-          required: false
-          type: string
-        - name: id
+        - name: user_id
           in: path
-          description: task ID to delete
+          description: user ID
           required: true
           type: integer
-          format: int64
+        - name: id
+          in: path
+          description: task ID
+          required: true
+          type: integer
+        - name: tasks
+          in: query
+          description: task
+          required: false
+          type: string
       responses:
         '200':
           description: deleted successfully

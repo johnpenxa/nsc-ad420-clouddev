@@ -112,7 +112,7 @@
         }
       }
     },
-    "/users/{id}": {
+    "/users/{user_id}": {
       "get": {
         "tags": [
           "users"
@@ -125,7 +125,7 @@
         ],
         "parameters": [
           {
-            "name": "id",
+            "name": "user_id",
             "in": "path",
             "description": "id to look up",
             "required": true,
@@ -195,13 +195,7 @@
         ],
         "parameters": [
           {
-            "name": "api_key",
-            "in": "header",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "id",
+            "name": "user_id",
             "in": "path",
             "description": "user ID to delete",
             "required": true,
@@ -222,7 +216,7 @@
         }
       }
     },
-    "/users/{id}/tasks": {
+    "/users/{user_id}/tasks": {
       "get": {
         "tags": [
           "tasks"
@@ -235,7 +229,7 @@
         ],
         "parameters": [
           {
-            "name": "id",
+            "name": "user_id",
             "in": "path",
             "description": "user ID",
             "required": true,
@@ -301,7 +295,7 @@
         }
       }
     },
-    "/users/{id}/tasks/{id}": {
+    "/users/{user_id}/tasks/{id}": {
       "get": {
         "tags": [
           "tasks"
@@ -314,14 +308,21 @@
         ],
         "parameters": [
           {
-            "name": "id",
+            "name": "user_id",
             "in": "path",
             "description": "user ID",
             "required": true,
             "type": "integer"
           },
           {
-            "name": "taskName",
+            "name": "id",
+            "in": "path",
+            "description": "task ID",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "tasks",
             "in": "query",
             "description": "find a task",
             "required": false,
@@ -391,18 +392,25 @@
         ],
         "parameters": [
           {
-            "name": "api_key",
-            "in": "header",
-            "required": false,
-            "type": "string"
+            "name": "user_id",
+            "in": "path",
+            "description": "user ID",
+            "required": true,
+            "type": "integer"
           },
           {
             "name": "id",
             "in": "path",
-            "description": "task ID to delete",
+            "description": "task ID",
             "required": true,
-            "type": "integer",
-            "format": "int64"
+            "type": "integer"
+          },
+          {
+            "name": "tasks",
+            "in": "query",
+            "description": "task",
+            "required": false,
+            "type": "string"
           }
         ],
         "responses": {
