@@ -149,7 +149,7 @@ paths:
           description: invalid ID supplied
         '404':
           description: user ID not found
-  '/users/{user_id}/tasks':
+  '/users/{user_id}/tasks/':
     get:
       tags:
         - tasks
@@ -164,7 +164,7 @@ paths:
           description: user ID
           required: true
           type: integer
-        - name: taskName
+        - name: tasks
           in: query
           description: task to find
           required: false

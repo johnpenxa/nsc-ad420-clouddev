@@ -216,7 +216,7 @@
         }
       }
     },
-    "/users/{user_id}/tasks": {
+    "/users/{user_id}/tasks/": {
       "get": {
         "tags": [
           "tasks"
@@ -236,7 +236,7 @@
             "type": "integer"
           },
           {
-            "name": "taskName",
+            "name": "tasks",
             "in": "query",
             "description": "task to find",
             "required": false,
