@@ -46,15 +46,15 @@ paths:
           type: string
       responses:
         '200':
-          description: search results matching criteria
+          description: SUCCESS!!!
           schema:
             type: array
             items:
               $ref: '#/definitions/User'
-        '400':
-          description: invalid input
         '404':
-          description: users not found
+          description: users not found CHANGE 404  not correct
+        '503':
+          description: Server Error
     post:
       tags:
         - users
@@ -75,9 +75,11 @@ paths:
       responses:
         '200':
           description: user created
-        '400':
+        '405':
           description: invalid input
         '409':
+          description: user already exists
+        '503':
           description: user already exists
   '/users/{user_id}':
     get:
@@ -96,7 +98,7 @@ paths:
           type: integer
       responses:
         '200':
-          description: user found
+          description: SUCCESS user found
           schema:
             $ref: '#/definitions/User'
         '400':
@@ -121,12 +123,12 @@ paths:
           schema:
             $ref: '#/definitions/User'
       responses:
-        '201':
+        '200':
           description: user updated
-        '400':
-          description: invalid ID
         '404':
           description: user ID not found
+        '405':
+          description: invalid ID
     delete:
       tags:
         - users
@@ -145,8 +147,6 @@ paths:
       responses:
         '200':
           description: user deleted successfully
-        '400':
-          description: invalid ID supplied
         '404':
           description: user ID not found
   '/users/{user_id}/tasks/':
@@ -198,9 +198,11 @@ paths:
           schema:
             $ref: '#/definitions/Task'
       responses:
-        '201':
+        '200':
           description: task created
-        '400':
+        '404':
+          description: task not found
+        '405':
           description: invalid input
   '/users/{user_id}/tasks/{id}':
     get:
@@ -232,8 +234,6 @@ paths:
           description: task found
           schema:
             $ref: '#/definitions/Task'
-        '400':
-          description: bad input
         '404':
           description: task not found
     put:
@@ -254,12 +254,12 @@ paths:
           schema:
             $ref: '#/definitions/Task'
       responses:
-        '201':
+        '200':
           description: task updated
-        '400':
-          description: invalid ID
         '404':
           description: task ID not found
+        '405':
+          description: invalid ID
     delete:
       tags:
         - tasks
@@ -287,18 +287,15 @@ paths:
       responses:
         '200':
           description: deleted successfully
-        '400':
-          description: invalid ID supplied
         '404':
           description: task ID not found
+        '405':
+          description: invalid ID supplied
 definitions:
   User:
     type: object
-    required:
-      - userId
-      - userName
     properties:
-      userId:
+      user_Id:
         type: integer
         format: int64
         example: 1234567890
@@ -314,7 +311,8 @@ definitions:
       tasks:
         type: array
         items:
-          $ref: '#/definitions/Task'
+          type: integer
+          format: int32
   Task:
     required:
       - taskId
