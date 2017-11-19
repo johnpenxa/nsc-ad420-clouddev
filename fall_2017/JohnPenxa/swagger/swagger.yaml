@@ -51,8 +51,6 @@ paths:
             type: array
             items:
               $ref: '#/definitions/User'
-        '404':
-          description: users not found CHANGE 404  not correct
         '503':
           description: Server Error
     post:
@@ -79,8 +77,6 @@ paths:
           description: invalid input
         '409':
           description: user already exists
-        '503':
-          description: user already exists
   '/users/{user_id}':
     get:
       tags:
@@ -101,8 +97,6 @@ paths:
           description: SUCCESS user found
           schema:
             $ref: '#/definitions/User'
-        '400':
-          description: invalid input
         '404':
           description: user id not found
     put:
@@ -164,11 +158,6 @@ paths:
           description: user ID
           required: true
           type: integer
-        - name: tasks
-          in: query
-          description: task to find
-          required: false
-          type: string
       responses:
         '200':
           description: search results matching criteria
@@ -176,8 +165,6 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Task'
-        '400':
-          description: bad input
         '404':
           description: task not found
     post:
@@ -192,11 +179,17 @@ paths:
         - application/json
       parameters:
         - in: body
-          name: newTask
-          description: new task to add
-          required: false
+          name: task
+          description: Task object to be added
+          required: true
           schema:
             $ref: '#/definitions/Task'
+        - name: user_id
+          in: path
+          description: User id to delete
+          required: true
+          type: integer
+          format: int64
       responses:
         '200':
           description: task created
@@ -248,11 +241,23 @@ paths:
         - application/json
       parameters:
         - in: body
-          name: updateTask
-          description: task to update
+          name: task
+          description: Task object to be updated
           required: true
           schema:
             $ref: '#/definitions/Task'
+        - name: user_id
+          in: path
+          description: ID of user/owner to get task from
+          required: true
+          type: integer
+          format: int64
+        - name: id
+          in: path
+          description: ID of task to return
+          required: true
+          type: integer
+          format: int64
       responses:
         '200':
           description: task updated
@@ -314,9 +319,7 @@ definitions:
           type: integer
           format: int32
   Task:
-    required:
-      - taskId
-      - taskName
+    type: object
     properties:
       taskId:
         type: integer
@@ -325,6 +328,20 @@ definitions:
       taskName:
         type: string
         example: Rotate Log files
-      complete:
-        type: boolean
-        default: false
+      creationDate:
+        type: string
+        format: date
+      dueDate:
+        type: string
+        format: date
+      completionDate:
+        type: string
+        format: date
+      status:
+        type: string
+        description: task status
+        enum:
+          - new
+          - in-progress
+          - blocked
+          - completed
